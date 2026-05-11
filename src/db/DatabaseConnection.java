@@ -3,42 +3,35 @@ package db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:sqlite:database/asrama.db";
-    private static Connection connection = null;
+
+    private static final String URL  = "jdbc:mysql://localhost:3307/asrama_db";
+    private static final String USER = "root";
+    private static final String PASS = "";
+
+    private static Connection conn;
 
     public static Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(URL);
-            initDatabase(connection);
+        if (conn == null || conn.isClosed()) {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection(URL, USER, PASS);
+            } catch (ClassNotFoundException e) {
+                System.err.println("Driver tidak ditemukan! Pastikan .jar sudah dimasukkan.");
+            }
         }
-        return connection;
-    }
-
-    private static void initDatabase(Connection conn) throws SQLException {
-        String sql = "CREATE TABLE IF NOT EXISTS penghuni (" +
-                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                     "nama TEXT NOT NULL," +
-                     "nik TEXT UNIQUE NOT NULL," +
-                     "tanggal_masuk TEXT NOT NULL," +
-                     "tanggal_keluar TEXT," +
-                     "kamar_id INTEGER," +
-                     "jenis_kelamin TEXT" +
-                     ")";
-        try (Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
-        }
+        return conn;
     }
 
     public static void closeConnection() {
         try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+                System.out.println("Koneksi ke database berhasil ditutup.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Gagal menutup koneksi: " + e.getMessage());
         }
     }
 }

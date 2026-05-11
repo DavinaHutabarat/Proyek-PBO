@@ -1,37 +1,22 @@
 package model;
 
-import java.time.LocalDate;
+public class Penghuni extends Entity {
+    private String nim;
+    private String nama;
+    private String noKamar;
 
-public class Penghuni extends Person {
-    private String nik;
-    private LocalDate tanggalMasuk;
-    private LocalDate tanggalKeluar;
-    private int kamarId;
-
-    public Penghuni() {}
-
-    public Penghuni(int id, String nama, String jenisKelamin,
-                    String nik, LocalDate tanggalMasuk, int kamarId) {
-        super(id, nama, jenisKelamin);
-        this.nik = nik;
-        this.tanggalMasuk = tanggalMasuk;
-        this.kamarId = kamarId;
+    public Penghuni(String nim, String nama, String noKamar) {
+        this.nim = nim;
+        this.nama = nama;
+        this.noKamar = noKamar;
     }
+
+    public String getNim() { return nim; }
+    public String getNama() { return nama; }
+    public String getNoKamar() { return noKamar; }
 
     @Override
     public String getInfo() {
-        return "ID: " + id + " | Nama: " + nama +
-               " | NIK: " + nik +
-               " | Kamar: " + kamarId +
-               " | Masuk: " + tanggalMasuk;
+        return "NIM: " + nim + " | Nama: " + nama + " | Kamar: " + noKamar;
     }
-
-    public String getNik() { return nik; }
-    public void setNik(String nik) { this.nik = nik; }
-    public LocalDate getTanggalMasuk() { return tanggalMasuk; }
-    public void setTanggalMasuk(LocalDate tanggalMasuk) { this.tanggalMasuk = tanggalMasuk; }
-    public LocalDate getTanggalKeluar() { return tanggalKeluar; }
-    public void setTanggalKeluar(LocalDate tanggalKeluar) { this.tanggalKeluar = tanggalKeluar; }
-    public int getKamarId() { return kamarId; }
-    public void setKamarId(int kamarId) { this.kamarId = kamarId; }
 }

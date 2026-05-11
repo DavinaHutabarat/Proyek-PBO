@@ -1,43 +1,175 @@
-import model.Penghuni;
-import service.PenghuniService;
 import db.DatabaseConnection;
-
-import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
+import java.util.Scanner;
+import mapper.FasilitasMapper;
+import mapper.PenghuniMapper;
+import mapper.RutinMapper; 
+import model.Fasilitas;
+import model.Penghuni;
+import model.Rutinitas; 
 
 public class Main {
     public static void main(String[] args) {
-        PenghuniService service = new PenghuniService();
-
+        Scanner input = new Scanner(System.in);
         try {
-            // === TAMBAH PENGHUNI ===
-            Penghuni p1 = new Penghuni(0, "Budi Santoso", "Laki-laki",
-                                       "3201010101010001", LocalDate.of(2024, 1, 15), 1);
-            Penghuni p2 = new Penghuni(0, "Siti Aminah", "Perempuan",
-                                       "3201010101010002", LocalDate.of(2024, 2, 1), 2);
-            service.tambahPenghuni(p1);
-            service.tambahPenghuni(p2);
+            PenghuniMapper pm = new PenghuniMapper();
+            FasilitasMapper fm = new FasilitasMapper();
+            RutinMapper rm = new RutinMapper(); 
+            
+            while (true) {
 
-            // === TAMPILKAN SEMUA ===
-            System.out.println("\n=== DAFTAR PENGHUNI ===");
-            List<Penghuni> list = service.getAllPenghuni();
-            for (Penghuni penghuni : list) {
-                System.out.println(penghuni.getInfo());
+                System.out.println("\n======= SISTEM ASRAMA IT DEL =======");
+
+                System.out.println("\n[ PENGHUNI ]");
+                System.out.println(" 1. Tambah Data Penghuni");
+                System.out.println(" 2. Lihat Semua Penghuni");
+                System.out.println(" 3. Urutkan Penghuni (Nama)");
+                System.out.println(" 4. Cari Penghuni (NIM)");
+
+                System.out.println("\n[ FASILITAS ]");
+                System.out.println(" 5. Tambah Data Fasilitas");
+                System.out.println(" 6. Lihat Semua Fasilitas");
+
+                System.out.println("\n[ RUTINITAS ]");
+                System.out.println(" 7. Tambah Jadwal Kurve (Kebersihan)");
+                System.out.println(" 8. Tambah Jadwal Ibadah");
+                System.out.println(" 9. Lihat Semua Riwayat Rutinitas");
+
+                System.out.println("\n[ SISTEM ]");
+                System.out.println(" 0. Keluar");
+                System.out.print("\nPilih: ");
+
+                if (!input.hasNextInt()) {
+                    System.out.println("Error: Input harus berupa angka!");
+                    input.next();
+                    continue;
+                }
+                
+                int pil = input.nextInt(); 
+                input.nextLine();
+
+                if (pil == 1) {
+                    System.out.println("\n--- Input Data Penghuni ---");
+                    System.out.print("NIM   : "); String nim = input.nextLine();
+                    System.out.print("Nama  : "); String nama = input.nextLine();
+                    System.out.print("Kamar : "); String kmr = input.nextLine();
+                    pm.insert(new Penghuni(nim, nama, kmr));
+                    System.out.println("Berhasil: Data penghuni disimpan ke Database.");
+
+                } else if (pil == 2) {
+                    List<Penghuni> list = pm.findAll();
+                    System.out.println("\n--- DAFTAR PENGHUNI ---");
+                    if (list.isEmpty()) {
+                        System.out.println("Data masih kosong.");
+                    } else {
+                        list.forEach(p -> System.out.println(p.getInfo()));
+                    }
+
+                } else if (pil == 3) {
+                    List<Penghuni> list = pm.findAll();
+                    Collections.sort(list, Comparator.comparing(p -> p.getNama().toLowerCase()));
+                    System.out.println("\n--- DAFTAR PENGHUNI (Urut Nama) ---");
+                    list.forEach(p -> System.out.println(p.getInfo()));
+
+                } else if (pil == 4) {
+                    System.out.print("Masukkan NIM yang dicari: ");
+                    String cariNim = input.nextLine();
+                    List<Penghuni> list = pm.findAll();
+                    Optional<Penghuni> hasil = list.stream()
+                        .filter(p -> p.getNim().equals(cariNim))
+                        .findFirst();
+
+                    if (hasil.isPresent()) {
+                        System.out.println("Ditemukan: " + hasil.get().getInfo());
+                    } else {
+                        System.out.println("Info: NIM " + cariNim + " tidak ditemukan.");
+                    }
+
+                } else if (pil == 5) {
+                    System.out.println("\n--- Input Data Fasilitas ---");
+                    System.out.print("Nama Fasilitas : "); String namaF = input.nextLine();
+                    System.out.print("Lokasi         : "); String lokasi = input.nextLine();
+                    System.out.print("Kondisi        : "); String kondisi = input.nextLine();
+                    fm.insert(new Fasilitas(namaF, lokasi, kondisi));
+                    System.out.println("Berhasil: Data fasilitas disimpan ke Database.");
+
+                } else if (pil == 6) {
+                    List<Fasilitas> listF = fm.findAll();
+                    System.out.println("\n--- DAFTAR FASILITAS ASRAMA ---");
+                    if (listF.isEmpty()) {
+                        System.out.println("Data fasilitas kosong.");
+                    } else {
+                        listF.forEach(f -> System.out.println(f.getInfo()));
+                    }
+
+                } else if (pil == 7) {
+                    System.out.println("\n--- Input Jadwal Kurve ---");
+                    System.out.print("Hari         : "); String hari = input.nextLine();
+                    System.out.print("Jadwal Kurve : "); String kelompok = input.nextLine();
+                    
+                    String bukti = "Sudah Melaksanakan Kurve";
+                    String kegiatan = "Jadwal Kurve: " + kelompok;
+                    
+                    rm.insert(new Rutinitas(kegiatan, hari, bukti));
+                    System.out.println("Berhasil: Jadwal Kurve disimpan.");
+
+                    System.out.println("\nRUTINITAS:");
+                    System.out.println("Hari: " + hari);
+                    System.out.println(kegiatan);
+                    System.out.println("Bukti: " + bukti);
+                    System.out.println("Laporan Sudah Dikonfirmasi.");
+                    System.out.println("----------------------------");
+
+                } else if (pil == 8) {
+                    System.out.println("\n--- Input Jadwal Ibadah ---");
+                    System.out.print("Jenis Ibadah : "); String jenis = input.nextLine();
+                    System.out.print("Hari/Waktu   : "); String waktu = input.nextLine();
+                    
+                    String bukti = "Sudah Melaksanakan Ibadah";
+                    String kegiatan = "Ibadah " + jenis;
+                    
+                    rm.insert(new Rutinitas(kegiatan, waktu, bukti));
+                    System.out.println("Berhasil: Jadwal Ibadah disimpan.");
+
+                    System.out.println("\nRUTINITAS:");
+                    System.out.println("Hari: " + waktu);
+                    System.out.println(kegiatan);
+                    System.out.println("Bukti: " + bukti);
+                    System.out.println("Laporan Sudah Dikonfirmasi.");
+                    System.out.println("----------------------------");
+
+                } else if (pil == 9) {
+                    List<Rutinitas> listR = rm.findAll();
+                    System.out.println("\n--- DAFTAR RIWAYAT RUTINITAS ASRAMA ---");
+                    if (listR.isEmpty()) {
+                        System.out.println("Belum ada riwayat rutinitas.");
+                    } else {
+                        for (Rutinitas r : listR) {
+                            System.out.println("RUTINITAS:");
+                            System.out.println("Hari: " + r.getWaktu());
+                            System.out.println(r.getNamaKegiatan());
+                            System.out.println("Bukti: " + r.getPenanggungJawab());
+                            System.out.println("Laporan Sudah Dikonfirmasi.");
+                            System.out.println("----------------------------");
+                        }
+                    }
+
+                } else if (pil == 0) {
+                    System.out.println("Menutup koneksi dan keluar sistem...");
+                    DatabaseConnection.closeConnection();
+                    break;
+                } else {
+                    System.out.println("Pilihan tidak valid!");
+                }
             }
-
-            // === PENGHUNI PER KAMAR (JCF Map) ===
-            System.out.println("\n=== PENGHUNI PER KAMAR ===");
-            Map<Integer, List<Penghuni>> perKamar = service.getPenghuniPerKamar();
-            perKamar.forEach((kamarId, penghuniList) -> {
-                System.out.println("Kamar " + kamarId + ": " + penghuniList.size() + " orang");
-                penghuniList.forEach(p -> System.out.println("  - " + p.getNama()));
-            });
-
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.err.println("Sistem Error: " + e.getMessage());
+            e.printStackTrace();
         } finally {
-            DatabaseConnection.closeConnection();
+            input.close();
         }
     }
 }
