@@ -1,3 +1,5 @@
+// 12S24039 - Jody Alfonso Siahaan
+
 package model;
 
 public class Fasilitas extends Entity {
