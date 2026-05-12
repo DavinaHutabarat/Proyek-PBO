@@ -1,3 +1,5 @@
+// Amelia Renata Lumbanbatu - 12S24031
+
 package mapper;
 
 import java.sql.*;
