@@ -26,23 +26,26 @@ Aplikasi ini menerapkan beberapa poin utama sesuai ketentuan tugas:
 🗄️ Skema Database (MySQL)
 Aplikasi menggunakan basis data asrama_db dengan skema Relasional (RDBMS) sebagai berikut:
 
-1. Table fasilitas
-id (INTEGER - Primary Key Auto Increment): ID unik untuk setiap fasilitas.
-nama (VARCHAR/TEXT): Nama fasilitas asrama (contoh: Dispencer, Kulkas).
-lokasi (VARCHAR/TEXT): Letak fasilitas berada (contoh: Lantai 1).
-kondisi (VARCHAR/TEXT): Status keadaan fasilitas (contoh: Bagus, Rusak).
+```plaintext
+1. Table: fasilitas
+   - id (INT, PK, AI)      : ID unik fasilitas.
+   - nama (VARCHAR)        : Nama fasilitas (contoh: Dispencer, Kulkas).
+   - lokasi (VARCHAR)      : Letak fasilitas (contoh: Lantai 1).
+   - kondisi (VARCHAR)     : Status keadaan (contoh: Bagus, Rusak).
 
-2. Table penghuni
-id (INTEGER - Primary Key Auto Increment): ID unik untuk setiap penghuni.
-nim (VARCHAR/TEXT): Nomor Induk Mahasiswa penghuni.
-nama (VARCHAR/TEXT): Nama lengkap mahasiswa.
-no_kamar (INTEGER): Nomor kamar yang ditempati mahasiswa.
+2. Table: penghuni
+   - id (INT, PK, AI)      : ID unik penghuni.
+   - nim (VARCHAR)         : Nomor Induk Mahasiswa.
+   - nama (VARCHAR)        : Nama lengkap mahasiswa.
+   - no_kamar (INT)        : Nomor kamar mahasiswa.
 
-3. Table rutinitas
-id (INTEGER - Primary Key Auto Increment): ID unik untuk setiap jadwal kegiatan.
-nama_kegiatan (VARCHAR/TEXT): Nama agenda rutin (contoh: Jadwal Kurve: Kelompok A).
-waktu (VARCHAR/TEXT): Hari atau jam pelaksanaan kegiatan (contoh: Senin).
-penanggung_jawab (VARCHAR/TEXT): Keterangan pihak yang bertanggung jawab atau status pelaksanaan.
+3. Table: rutinitas
+   - id (INT, PK, AI)      : ID unik jadwal kegiatan.
+   - nama_kegiatan (TEXT)  : Nama agenda (contoh: Jadwal Kurve).
+   - waktu (VARCHAR)       : Hari/jam pelaksanaan (contoh: Senin).
+   - penanggung_jawab (TEXT): Pihak bertanggung jawab/status.
+
+------------------------------------------------------------------------
 
 ##  Link Presentasi YouTube
 [Klik di sini untuk menonton video presentasi kami](Link_YouTube_Kalian_Disini)
