@@ -23,7 +23,7 @@ Aplikasi ini menerapkan beberapa poin utama sesuai ketentuan tugas:
 
 ------------------------------------------------------------------------
 
-🗄️ Skema Database (MySQL)
+## 🗄️ Skema Database (MySQL)
 Aplikasi menggunakan basis data asrama_db dengan skema Relasional (RDBMS) sebagai berikut:
 
 1. Table: fasilitas
