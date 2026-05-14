@@ -1,4 +1,4 @@
-// Amelia Renata Lumbanbatu - 12S24031
+//Amelia Renata Lumbanbatu - 12S24031
 
 package mapper;
 
