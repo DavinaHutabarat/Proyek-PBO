@@ -26,7 +26,6 @@ Aplikasi ini menerapkan beberapa poin utama sesuai ketentuan tugas:
 🗄️ Skema Database (MySQL)
 Aplikasi menggunakan basis data asrama_db dengan skema Relasional (RDBMS) sebagai berikut:
 
-```plaintext
 1. Table: fasilitas
    - id (INT, PK, AI)      : ID unik fasilitas.
    - nama (VARCHAR)        : Nama fasilitas (contoh: Dispencer, Kulkas).
@@ -53,7 +52,16 @@ Aplikasi menggunakan basis data asrama_db dengan skema Relasional (RDBMS) sebaga
 
 ------------------------------------------------------------------------
 
+## Cara Menjalankan Proyek
+1. Clone repositori ini.
+2. Import database (file `.sql` terlampir).
+3. Konfigurasi `database.properties` atau file koneksi JDBC kalian.
+4. Jalankan `Main.java`.
+
+------------------------------------------------------------------------
+
 📂 Struktur Proyek Sistem Manajemen Asrama
+```plaintext
 PROYEK-PBO/
 ├── src/
 │   ├── db/
@@ -70,11 +78,3 @@ PROYEK-PBO/
 │   └── Main.java                     (Entry Point/Main Class)
 ├── Makefile                          (Build Automation)
 └── README.md                         (Dokumentasi Proyek)
-
-------------------------------------------------------------------------
-
-## Cara Menjalankan Proyek
-1. Clone repositori ini.
-2. Import database (file `.sql` terlampir).
-3. Konfigurasi `database.properties` atau file koneksi JDBC kalian.
-4. Jalankan `Main.java`.
