@@ -1,4 +1,4 @@
-// 12S24039 - Jody Alfonso Siahaan
+// 12S24047 - Davina Olivia
 
 package model;
 
